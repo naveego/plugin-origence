@@ -1,0 +1,100 @@
+{
+  "id": "plugin-origence",
+  "displayName": "Origence",
+  "description": "Publisher which connects to Origence",
+  "apiVersion": "2",
+  "versionDescription": "Version 1",
+  "version": "1.0.0",
+  "iconFile": "icon.png",
+  "executable": "PluginOrigence",
+  "kind": "publisher",
+  "os": "$GOOS",
+  "arch": "$GOARCH",
+  "accessGroups": [],
+  "canConfigure": true,
+  "canProduceMultipleSchemas": true,
+  "canAcceptQueryBasedSchemas": false,
+  "canUseOAuth": false,
+  "canConfigureWrite": false,
+  "canWrite": false,
+  "canConfigureReplication": false,
+  "canWriteReplication": false,
+  "querySchema": {
+    "ui": {
+      "ui:widget": "code",
+      "ui:options": {
+        "language": "sql"
+      }
+    },
+    "schema": {
+      "type": "string"
+    }
+  },
+  "configSchema": {
+    "ui": {
+      "ui:order": [
+        "Hostname",
+        "Port",
+        "Username",
+        "Password",
+        "SshKey",
+        "RootPath"
+      ],
+      "FtpPassword": {
+        "ui:widget": "password"
+      },
+      "FtpSshKey": {
+        "ui:widget": "textarea"
+      }
+    },
+    "schema": {
+      "type": "object",
+      "properties": {
+        "Hostname": {
+          "type": "string",
+          "title": "FTP Hostname",
+          "description": "Hostname for any root paths using FTP/SFTP.",
+          "default": ""
+        },
+        "Port": {
+          "type": "number",
+          "title": "FTP Port",
+          "description": "Port for any root paths using FTP/SFTP.",
+          "default": 22
+        },
+        "Username": {
+          "type": "string",
+          "title": "FTP Username",
+          "description": "Username for any root paths using FTP/SFTP.",
+          "default": ""
+        },
+        "Password": {
+          "type": "string",
+          "title": "FTP Password",
+          "description": "Password for any root paths using FTP/SFTP.",
+          "default": ""
+        },
+        "SshKey": {
+          "type": "string",
+          "title": "SFTP SSH Key",
+          "description": "Path to SSH private key for any root paths using SFTP.",
+          "default": ""
+        },
+        "RootPath": {
+          "type": "string",
+          "title": "Root Path",
+          "description": "Root path on the FTP/SFTP server.",
+          "default": "/"
+        }
+      },
+      "required": [
+        "Hostname",
+        "Port",
+        "Username",
+        "Password",
+        "SshKey",
+        "RootPath"
+      ]
+    }
+  }
+}
