@@ -288,3 +288,6 @@ __pycache__/
 *.xsd.cs
 /PluginFileReaderTest/Temp/**
 /PluginFileReaderTest/Logs/**
+
+#vscode/
+.vscode/

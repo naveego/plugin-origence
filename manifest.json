@@ -35,6 +35,7 @@
       "ui:order": [
         "Hostname",
         "Port",
+        "UseSftp",
         "Username",
         "Password",
         "SshKey",
@@ -52,25 +53,31 @@
       "properties": {
         "Hostname": {
           "type": "string",
-          "title": "FTP Hostname",
+          "title": "Hostname",
           "description": "Hostname for any root paths using FTP/SFTP.",
           "default": ""
         },
         "Port": {
           "type": "number",
-          "title": "FTP Port",
+          "title": "Port",
           "description": "Port for any root paths using FTP/SFTP.",
           "default": 22
         },
+        "UseSftp": {
+          "type": "boolean",
+          "title": "Use SFTP",
+          "description": "Whether to use SFTP (true) or FTP (false).",
+          "default": true
+        },
         "Username": {
           "type": "string",
-          "title": "FTP Username",
+          "title": "Username",
           "description": "Username for any root paths using FTP/SFTP.",
           "default": ""
         },
         "Password": {
           "type": "string",
-          "title": "FTP Password",
+          "title": "Password",
           "description": "Password for any root paths using FTP/SFTP.",
           "default": ""
         },
@@ -90,9 +97,8 @@
       "required": [
         "Hostname",
         "Port",
+        "UseSftp",
         "Username",
-        "Password",
-        "SshKey",
         "RootPath"
       ]
     }

@@ -1,22 +1,92 @@
-using System.Threading.Tasks;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml.Linq;
+using FluentFTP;
 using PluginOrigence.Helper;
 
 public class OrigenceFtpClient : IPluginClient
 {
-    public Settings Settings { get; set; }
+    private Settings Settings { get; set; }
+    private readonly FtpClient _client;
 
-    public Task<bool> Connect()
+    public OrigenceFtpClient(Settings settings)
     {
-        throw new System.NotImplementedException();
+        Settings = settings;
+        _client = new FtpClient(Settings.Hostname, Settings.Username, Settings.Password, Settings.Port);
     }
 
-    public Task<bool> Disconnect()
+    public bool Connect()
     {
-        throw new System.NotImplementedException();
+        try
+        {
+            if (!IsConnected())
+            {
+                _client.Connect();
+            }
+            return true;
+
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    public bool Disconnect()
+    {
+        try
+        {
+            if (IsConnected())
+            {
+                _client.Disconnect();
+            }
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 
     public bool IsConnected()
     {
-        throw new System.NotImplementedException();
+        return _client.IsConnected;
+    }
+
+    public async IAsyncEnumerable<XElement> GetData(string elementTag, int sampleSize)
+    {
+        Connect();
+
+        var files = _client.GetListing(Settings.RootPath);
+        var count = 0;
+
+        foreach (var file in files)
+        {
+            if (file.Type == FtpObjectType.File && file.Name.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
+            {
+                using var stream = new MemoryStream();
+                
+                _client.DownloadStream(stream, file.FullName);
+                stream.Position = 0;
+                var xDoc = XDocument.Load(stream);
+                
+                var ns = xDoc?.Root?.Name.Namespace ?? "";
+                xDoc.Descendants(ns + "Raw").Remove();
+                var elementsWithNs = xDoc?.Descendants(ns + elementTag).ToList();
+
+                foreach (var element in elementsWithNs)
+                {
+                    if (sampleSize > 0 && count >= sampleSize)
+                    {
+                        yield break;
+                    }
+                    count++;
+                    yield return element;
+                }
+            }
+        }
+
     }
 }

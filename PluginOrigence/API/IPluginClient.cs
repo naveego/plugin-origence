@@ -1,9 +1,10 @@
-using System.Threading.Tasks;
-using PluginOrigence.Helper;
+using System.Collections.Generic;
+using System.Xml.Linq;
 
 public interface IPluginClient
 {
-    Task<bool> Connect();
-    Task<bool> Disconnect();
+    bool Connect();
+    IAsyncEnumerable<XElement> GetData(string elementTag, int sampleSize = 0);
+    bool Disconnect();
     bool IsConnected();
 }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -87,7 +86,7 @@ namespace PluginOrigence.Plugin
             {
                 var client = _clientFactory.GetClient(_server.Settings);
 
-                if (!await client.Connect())
+                if (!client.Connect())
                 {
                     return new ConnectResponse
                     {
@@ -98,7 +97,7 @@ namespace PluginOrigence.Plugin
                     };
                 }
 
-                await client.Disconnect();
+                client.Disconnect();
             }
             catch (Exception e)
             {
@@ -162,13 +161,15 @@ namespace PluginOrigence.Plugin
 
             DiscoverSchemasResponse discoverSchemasResponse = new DiscoverSchemasResponse();
 
+            var client = _clientFactory.GetClient(_server.Settings);
+
             // only return requested schemas if refresh mode selected
             if (request.Mode == DiscoverSchemasRequest.Types.Mode.All)
             {
                 // get all schemas
                 try
                 {
-                    var schemas = Discover.GetAllSchemas();
+                    var schemas = Discover.GetAllSchemas(client, sampleSize);
 
                     discoverSchemasResponse.Schemas.AddRange(await schemas.ToListAsync());
 
@@ -189,7 +190,7 @@ namespace PluginOrigence.Plugin
 
                 Logger.Info($"Refresh schemas attempted: {refreshSchemas.Count}");
 
-                var schemas = Discover.GetRefreshSchemas(refreshSchemas, sampleSize);
+                var schemas = Discover.GetRefreshSchemas(client, refreshSchemas, sampleSize);
 
                 discoverSchemasResponse.Schemas.AddRange(await schemas.ToListAsync());
 
@@ -216,30 +217,31 @@ namespace PluginOrigence.Plugin
         {
             try
             {
-                // var schema = request.Schema;
-                // var limit = request.Limit;
-                // var limitFlag = request.Limit != 0;
-                // var jobId = request.JobId;
-                // var recordsCount = 0;
+                var schema = request.Schema;
+                var limit = request.Limit;
+                var limitFlag = request.Limit != 0;
+                var jobId = request.JobId;
+                var recordsCount = 0;
 
-                // Logger.SetLogPrefix(jobId);
+                Logger.SetLogPrefix(jobId);
 
-                // var records = Read.ReadRecords(_connectionFactory, schema);
+                var client = _clientFactory.GetClient(_server.Settings);
+                var records = Read.ReadRecords(client, schema);
 
-                // await foreach (var record in records)
-                // {
-                //     // stop publishing if the limit flag is enabled and the limit has been reached or the server is disconnected
-                //     if (limitFlag && recordsCount == limit || !_server.Connected)
-                //     {
-                //         break;
-                //     }
+                await foreach (var record in records)
+                {
+                    // stop publishing if the limit flag is enabled and the limit has been reached or the server is disconnected
+                    if (limitFlag && recordsCount == limit || !_server.Connected)
+                    {
+                        break;
+                    }
 
-                //     // publish record
-                //     await responseStream.WriteAsync(record);
-                //     recordsCount++;
-                // }
+                    // publish record
+                    await responseStream.WriteAsync(record);
+                    recordsCount++;
+                }
 
-                // Logger.Info($"Published {recordsCount} records");
+                Logger.Info($"Published {recordsCount} records");
             }
             catch (Exception e)
             {

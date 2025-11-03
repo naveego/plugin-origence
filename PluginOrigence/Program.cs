@@ -3,7 +3,6 @@ using System.Linq;
 using Grpc.Core;
 using Naveego.Sdk.Logging;
 using Naveego.Sdk.Plugins;
-using PluginOrigence.Helper;
 
 namespace PluginOrigence
 {
