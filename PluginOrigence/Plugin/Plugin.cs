@@ -52,18 +52,15 @@ namespace PluginOrigence.Plugin
         }
 
         /// <summary>
-        /// Establishes a connection with PostgreSQL.
+        /// Establishes a connection to the target FTP/SFTP server.
         /// </summary>
         /// <param name="request"></param>
         /// <param name="context"></param>
         /// <returns>A message indicating connection success</returns>
         public override async Task<ConnectResponse> Connect(ConnectRequest request, ServerCallContext context)
         {
-            // for setting the log level
-            // Logger.SetLogLevel(Logger.LogLevel.Debug);
-            
             Logger.SetLogPrefix("connect");
-            // validate settings passed in
+
             try
             {
                 _server.Settings = JsonConvert.DeserializeObject<Settings>(request.SettingsJson);
@@ -81,7 +78,6 @@ namespace PluginOrigence.Plugin
                 };
             }
 
-            // test cluster factory
             try
             {
                 var client = _clientFactory.GetClient(_server.Settings);
@@ -129,24 +125,21 @@ namespace PluginOrigence.Plugin
             Logger.SetLogPrefix("connect_session");
             Logger.Info("Connecting session...");
 
-            // create task to wait for disconnect to be called
             _tcs?.SetResult(true);
             _tcs = new TaskCompletionSource<bool>();
 
-            // call connect method
             var response = await Connect(request, context);
 
             await responseStream.WriteAsync(response);
 
             Logger.Info("Session connected.");
 
-            // wait for disconnect to be called
             await _tcs.Task;
         }
 
 
         /// <summary>
-        /// Discovers schemas located in the users Zoho CRM instance
+        /// Discovers schemas located on the target FTP/SFTP server.
         /// </summary>
         /// <param name="request"></param>
         /// <param name="context"></param>
@@ -230,13 +223,11 @@ namespace PluginOrigence.Plugin
 
                 await foreach (var record in records)
                 {
-                    // stop publishing if the limit flag is enabled and the limit has been reached or the server is disconnected
                     if (limitFlag && recordsCount == limit || !_server.Connected)
                     {
                         break;
                     }
 
-                    // publish record
                     await responseStream.WriteAsync(record);
                     recordsCount++;
                 }
@@ -257,11 +248,9 @@ namespace PluginOrigence.Plugin
         /// <returns></returns>
         public override Task<DisconnectResponse> Disconnect(DisconnectRequest request, ServerCallContext context)
         {
-            // clear connection
             _server.Connected = false;
             _server.Settings = null;
 
-            // alert connection session to close
             if (_tcs != null)
             {
                 _tcs.SetResult(true);
