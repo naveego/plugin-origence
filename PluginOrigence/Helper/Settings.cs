@@ -34,9 +34,14 @@ namespace PluginOrigence.Helper
                 throw new Exception("The Username property must be set");
             }
 
-            if (string.IsNullOrEmpty(Password) && string.IsNullOrEmpty(SshKey))
+            if (UseSftp && string.IsNullOrEmpty(SshKey) && string.IsNullOrEmpty(Password))
             {
-                throw new Exception("The Password or SshKey property must be set");
+                throw new Exception("For SFTP connections, either the Password or SshKey property must be set");
+            }
+            
+            if (!UseSftp && string.IsNullOrEmpty(Password))
+            {
+                throw new Exception("The Password property must be set for FTP connections");
             }
 
             return true;

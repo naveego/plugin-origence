@@ -41,11 +41,11 @@
         "SshKey",
         "RootPath"
       ],
-      "FtpPassword": {
+      "Password": {
         "ui:widget": "password"
       },
-      "FtpSshKey": {
-        "ui:widget": "textarea"
+      "SshKey": {
+        "ui:widget": "password"
       }
     },
     "schema": {
@@ -54,13 +54,13 @@
         "Hostname": {
           "type": "string",
           "title": "Hostname",
-          "description": "Hostname for any root paths using FTP/SFTP.",
+          "description": "Hostname for any root path using FTP/SFTP.",
           "default": ""
         },
         "Port": {
           "type": "number",
           "title": "Port",
-          "description": "Port for any root paths using FTP/SFTP.",
+          "description": "Port for any root path using FTP/SFTP.",
           "default": 22
         },
         "UseSftp": {
@@ -72,26 +72,26 @@
         "Username": {
           "type": "string",
           "title": "Username",
-          "description": "Username for any root paths using FTP/SFTP.",
+          "description": "Username for any root path using FTP/SFTP.",
           "default": ""
         },
         "Password": {
           "type": "string",
           "title": "Password",
-          "description": "Password for any root paths using FTP/SFTP.",
+          "description": "Password for any root path using FTP/SFTP.",
           "default": ""
         },
         "SshKey": {
           "type": "string",
           "title": "SFTP SSH Key",
-          "description": "Path to SSH private key for any root paths using SFTP.",
+          "description": "SSH private key for any root path using SFTP.",
           "default": ""
         },
         "RootPath": {
           "type": "string",
           "title": "Root Path",
-          "description": "Root path on the FTP/SFTP server.",
-          "default": "/"
+          "description": "Origence file path on the FTP/SFTP server.",
+          "default": ""
         }
       },
       "required": [
