@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using FluentFTP;
 using PluginOrigence.Helper;
@@ -55,35 +55,33 @@ public class OrigenceFtpClient : IPluginClient
         return _client.IsConnected;
     }
 
-    public async IAsyncEnumerable<XElement> GetData(string elementTag, int sampleSize)
+    public async IAsyncEnumerable<XDocument> GetDocuments()
     {
         Connect();
 
         var files = _client.GetListing(Settings.RootPath);
-        var count = 0;
 
         foreach (var file in files)
         {
             if (file.Type == FtpObjectType.File && file.Name.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
             {
                 using var stream = new MemoryStream();
+                XDocument xDoc = null;
                 
-                _client.DownloadStream(stream, file.FullName);
-                stream.Position = 0;
-                var xDoc = XDocument.Load(stream);
-                
-                var ns = xDoc?.Root?.Name.Namespace ?? "";
-                xDoc.Descendants(ns + "Raw").Remove();
-                var elementsWithNs = xDoc?.Descendants(ns + elementTag).ToList();
-
-                foreach (var element in elementsWithNs)
+                try
                 {
-                    if (sampleSize > 0 && count >= sampleSize)
-                    {
-                        yield break;
-                    }
-                    count++;
-                    yield return element;
+                    _client.DownloadStream(stream, file.FullName);
+                    stream.Position = 0;
+                    xDoc = await Task.Run(() => XDocument.Load(stream));
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+
+                if (xDoc != null)
+                {
+                    yield return xDoc;
                 }
             }
         }

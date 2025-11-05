@@ -33,13 +33,14 @@
   "configSchema": {
     "ui": {
       "ui:order": [
+        "RootPath",
+        "UseRemote",
         "Hostname",
         "Port",
         "UseSftp",
         "Username",
         "Password",
-        "SshKey",
-        "RootPath"
+        "SshKey"
       ],
       "Password": {
         "ui:widget": "password"
@@ -51,6 +52,18 @@
     "schema": {
       "type": "object",
       "properties": {
+          "RootPath": {
+          "type": "string",
+          "title": "Root Path",
+          "description": "Origence file path on the local or a remote FTP/SFTP server.",
+          "default": ""
+        },
+        "UseRemote": {
+          "type": "boolean",
+          "title": "Use Remote Server",
+          "description": "Whether to use a remote FTP/SFTP server (true) or local file system (false).",
+          "default": false
+        },
         "Hostname": {
           "type": "string",
           "title": "Hostname",
@@ -67,7 +80,7 @@
           "type": "boolean",
           "title": "Use SFTP",
           "description": "Whether to use SFTP (true) or FTP (false).",
-          "default": true
+          "default": false
         },
         "Username": {
           "type": "string",
@@ -86,19 +99,9 @@
           "title": "SFTP SSH Key",
           "description": "SSH private key for any root path using SFTP.",
           "default": ""
-        },
-        "RootPath": {
-          "type": "string",
-          "title": "Root Path",
-          "description": "Origence file path on the FTP/SFTP server.",
-          "default": ""
         }
       },
       "required": [
-        "Hostname",
-        "Port",
-        "UseSftp",
-        "Username",
         "RootPath"
       ]
     }

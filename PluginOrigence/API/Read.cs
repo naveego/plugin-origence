@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 using Naveego.Sdk.Plugins;
 using Newtonsoft.Json;
 
@@ -10,26 +12,42 @@ public class Read
         int sampleSize = 0)
     {
         var elementTag = schema.Name;
-        var dataElements = client.GetData(elementTag, sampleSize);
+        var xDocuments = client.GetDocuments();
 
-        await foreach (var element in dataElements)
+        await foreach (var xDoc in xDocuments)
         {
-            var elementId = element.Attribute("ID")?.Value ?? "";
-            var jsonObject = JsonConvert.SerializeXNode(element, Formatting.Indented);
+            var count = 0;
 
-            var recordMap = new Dictionary<string, object>
-            {
-                ["ID"] = elementId,
-                ["JSONObject"] = jsonObject
-            };
-            
-            var record = new Record
-            {
-                Action = Record.Types.Action.Upsert,
-                DataJson = JsonConvert.SerializeObject(recordMap)
-            };
+            var ns = xDoc?.Root?.Name.Namespace ?? "";
+            xDoc?.Descendants(ns + "Raw")?.Remove();
+            var elementsWithNs = xDoc?.Descendants(ns + elementTag)?.ToList() ?? new List<XElement>();
 
-            yield return record;
+            foreach (var element in elementsWithNs)
+            {
+                if (sampleSize > 0 && count >= sampleSize)
+                {
+                    yield break;
+                }
+                count++;
+                
+                var elementId = element.Attribute("ID")?.Value ?? "";
+                var jsonObject = JsonConvert.SerializeXNode(element, Formatting.Indented);
+
+                var recordMap = new Dictionary<string, object>
+                {
+                    ["ID"] = elementId,
+                    ["JSONObject"] = jsonObject
+                };
+
+                var record = new Record
+                {
+                    Action = Record.Types.Action.Upsert,
+                    DataJson = JsonConvert.SerializeObject(recordMap)
+                };
+
+                yield return record;
+            }
+
         }
     }
 }

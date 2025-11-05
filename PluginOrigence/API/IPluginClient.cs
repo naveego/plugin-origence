@@ -4,7 +4,7 @@ using System.Xml.Linq;
 public interface IPluginClient
 {
     bool Connect();
-    IAsyncEnumerable<XElement> GetData(string elementTag, int sampleSize = 0);
+    IAsyncEnumerable<XDocument> GetDocuments();
     bool Disconnect();
     bool IsConnected();
 }

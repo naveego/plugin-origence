@@ -1,19 +1,23 @@
-using Naveego.Sdk.Logging;
 using PluginOrigence.Helper;
 
 public class ClientFactory : IClientFactory
 {
     public IPluginClient GetClient(Settings settings)
     {
-        if (settings.UseSftp)
+        if (settings.UseRemote)
         {
-            Logger.Info("Using SFTP client");
-            return new OrigenceSftpClient(settings);
+            if (settings.UseSftp)
+            {
+                return new OrigenceSftpClient(settings);
+            }
+            else
+            {
+                return new OrigenceFtpClient(settings);
+            }
         }
         else
         {
-            Logger.Info("Using FTP client");
-            return new OrigenceFtpClient(settings);
+            return new OrigenceLfsClient(settings);
         }
     }
 }
