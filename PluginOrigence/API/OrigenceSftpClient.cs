@@ -37,8 +37,7 @@ public class OrigenceSftpClient : IPluginClient
             {
                 _client?.Connect();
             }
-            return true;
-
+            return _client.Exists(Settings.RootPath);
         }
         catch (Exception)
         {

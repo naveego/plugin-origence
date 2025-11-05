@@ -61,7 +61,7 @@
         "UseRemote": {
           "type": "boolean",
           "title": "Use Remote Server",
-          "description": "Whether to use a remote FTP/SFTP server (true) or local file system (false).",
+          "description": "Whether to use a remote FTP/SFTP server (checked) or local file system (unchecked).",
           "default": false
         },
         "Hostname": {
@@ -79,7 +79,7 @@
         "UseSftp": {
           "type": "boolean",
           "title": "Use SFTP",
-          "description": "Whether to use SFTP (true) or FTP (false).",
+          "description": "Whether to use SFTP (checked) or FTP (unchecked).",
           "default": false
         },
         "Username": {

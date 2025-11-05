@@ -39,17 +39,24 @@ namespace PluginOrigence.Helper
 
                 if (UseSftp)
                 {
-                    if(string.IsNullOrEmpty(SshKey) && string.IsNullOrEmpty(Password))
+                    if (string.IsNullOrWhiteSpace(SshKey) && string.IsNullOrWhiteSpace(Password))
                     {
                         throw new Exception("For SFTP connections, either the Password or SshKey property must be set");
                     }
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(Password))
+                    if (string.IsNullOrWhiteSpace(Password))
                     {
                         throw new Exception("The Password property must be set for FTP connections");
                     }
+                }
+            }
+            else
+            {
+                if(!string.IsNullOrWhiteSpace(Hostname) || !string.IsNullOrWhiteSpace(SshKey) || UseSftp)
+                {
+                    throw new Exception("Hostname, SshKey, and Use SFTP properties are only valid when Use Remote Server is selected. To enable remote connections, please check the Use Remote Server option.");
                 }
             }
 

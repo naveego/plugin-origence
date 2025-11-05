@@ -25,8 +25,7 @@ public class OrigenceFtpClient : IPluginClient
             {
                 _client.Connect();
             }
-            return true;
-
+            return _client.DirectoryExists(Settings.RootPath);
         }
         catch (Exception)
         {
