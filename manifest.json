@@ -34,10 +34,9 @@
     "ui": {
       "ui:order": [
         "RootPath",
-        "UseRemote",
+        "HostType",
         "Hostname",
         "Port",
-        "UseSftp",
         "Username",
         "Password",
         "SshKey"
@@ -58,11 +57,12 @@
           "description": "Origence file path on the local or a remote FTP/SFTP server.",
           "default": ""
         },
-        "UseRemote": {
-          "type": "boolean",
-          "title": "Use Remote Server",
-          "description": "Whether to use a remote FTP/SFTP server (checked) or local file system (unchecked).",
-          "default": false
+        "HostType": {
+          "type": "string",
+          "title": "Host Type",
+          "description": "Type of host to use for accessing files.",
+          "enum": ["local", "ftp", "sftp"],
+          "default": "local"
         },
         "Hostname": {
           "type": "string",
@@ -75,12 +75,6 @@
           "title": "Port",
           "description": "Port for any root path using FTP/SFTP.",
           "default": 22
-        },
-        "UseSftp": {
-          "type": "boolean",
-          "title": "Use SFTP",
-          "description": "Whether to use SFTP (checked) or FTP (unchecked).",
-          "default": false
         },
         "Username": {
           "type": "string",
@@ -102,7 +96,8 @@
         }
       },
       "required": [
-        "RootPath"
+        "RootPath",
+        "HostType"
       ]
     }
   }

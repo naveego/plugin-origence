@@ -5,13 +5,15 @@ namespace PluginOrigence.Helper
     public class Settings
     {
         public string RootPath { get; set; }
-        public bool UseRemote { get; set; }
+        public string HostType { get; set; }
         public string Hostname { get; set; }
         public int Port { get; set; }
-        public bool UseSftp { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public string SshKey { get; set; }
+
+        private bool UseRemote => HostType == "ftp" || HostType == "sftp";
+        private bool UseSftp => HostType == "sftp";
 
         public bool Validate()
         {
@@ -54,9 +56,14 @@ namespace PluginOrigence.Helper
             }
             else
             {
-                if(!string.IsNullOrWhiteSpace(Hostname) || !string.IsNullOrWhiteSpace(SshKey) || UseSftp)
+                if (!string.IsNullOrWhiteSpace(Hostname))
                 {
-                    throw new Exception("Hostname, SshKey, and Use SFTP properties are only valid when Use Remote Server is selected. To enable remote connections, please check the Use Remote Server option.");
+                    throw new Exception("Hostname property is only valid when a remote host is selected. To enable remote connections, please set the Host Type property to 'ftp' or 'sftp'.");
+                }
+
+                if (!string.IsNullOrWhiteSpace(SshKey))
+                {
+                    throw new Exception("SshKey property is only valid when a remote host is selected. To enable remote connections, please set the Host Type property to 'ftp' or 'sftp'.");
                 }
             }
 

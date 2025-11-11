@@ -1,9 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginOrigence", "PluginOrigence\PluginOrigence.csproj", "{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginOrigenceTest", "PluginOrigenceTest\PluginOrigenceTest.csproj", "{1A41CDE2-FF3F-484E-8EBE-0FFC020878B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginOrigence", "PluginOrigence\PluginOrigence.csproj", "{4698D14F-6150-4A9C-BA59-0BBEE207F225}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +12,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A41CDE2-FF3F-484E-8EBE-0FFC020878B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A41CDE2-FF3F-484E-8EBE-0FFC020878B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A41CDE2-FF3F-484E-8EBE-0FFC020878B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A41CDE2-FF3F-484E-8EBE-0FFC020878B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4698D14F-6150-4A9C-BA59-0BBEE207F225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4698D14F-6150-4A9C-BA59-0BBEE207F225}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4698D14F-6150-4A9C-BA59-0BBEE207F225}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4698D14F-6150-4A9C-BA59-0BBEE207F225}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
