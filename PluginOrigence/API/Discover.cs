@@ -6,7 +6,7 @@ using Naveego.Sdk.Plugins;
 
 public class Discover
 {
-    private static readonly string[] AllowedSchemaNames = new string[]
+    private static readonly string[] AllowedSchemaIds = new string[]
     {
         "CUDLVehicleLoanApplication"
     };
@@ -29,7 +29,7 @@ public class Discover
                 Name = "JSONObject",
                 IsKey = false,
                 IsNullable = false,
-                Type = PropertyType.Blob,
+                Type = PropertyType.String,
             }
         };
     }
@@ -37,7 +37,7 @@ public class Discover
     public static async IAsyncEnumerable<Schema> GetAllSchemas(IPluginClient client, int sampleSize = 0)
     {
         var schemas = new List<Schema>();
-        foreach (var schemaName in AllowedSchemaNames)
+        foreach (var schemaName in AllowedSchemaIds)
         {
             schemas.Add(new Schema
             {
@@ -64,7 +64,7 @@ public class Discover
     {
         foreach (var schema in refreshSchemas)
         {
-            if (!AllowedSchemaNames.Contains(schema.Name))
+            if (!AllowedSchemaIds.Contains(schema.Id))
             {
                 continue;
             }

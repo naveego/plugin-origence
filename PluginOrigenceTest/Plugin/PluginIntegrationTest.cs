@@ -90,7 +90,7 @@ namespace PluginOrigenceTest.Plugin
                         Name = "JSONObject",
                         IsKey = false,
                         IsNullable = false,
-                        Type = PropertyType.Blob,
+                        Type = PropertyType.String,
                     }
                 }
             };
@@ -163,7 +163,7 @@ namespace PluginOrigenceTest.Plugin
 
             var testSchema = response.Schemas.FirstOrDefault(s => s.Id == "CUDLVehicleLoanApplication");
             Assert.NotNull(testSchema);
-            Assert.Equal("CUDLVehicleLoanApplication", testSchema.Name);
+            Assert.Equal("CUDLVehicleLoanApplication", testSchema.Id);
             Assert.NotEmpty(testSchema.Properties);
             Assert.Contains(testSchema.Properties, p => p.Id == "ID" && p.IsKey);
             Assert.Contains(testSchema.Properties, p => p.Id == "JSONObject");
@@ -293,7 +293,7 @@ namespace PluginOrigenceTest.Plugin
 
             var testSchema = response.Schemas.FirstOrDefault(s => s.Id == "CUDLVehicleLoanApplication");
             Assert.NotNull(testSchema);
-            Assert.Equal("CUDLVehicleLoanApplication", testSchema.Name);
+            Assert.Equal("CUDLVehicleLoanApplication", testSchema.Id);
             Assert.NotEmpty(testSchema.Properties);
             Assert.Contains(testSchema.Properties, p => p.Id == "ID" && p.IsKey);
             Assert.Contains(testSchema.Properties, p => p.Id == "JSONObject");
@@ -423,7 +423,7 @@ namespace PluginOrigenceTest.Plugin
 
             var testSchema = response.Schemas.FirstOrDefault(s => s.Id == "CUDLVehicleLoanApplication");
             Assert.NotNull(testSchema);
-            Assert.Equal("CUDLVehicleLoanApplication", testSchema.Name);
+            Assert.Equal("CUDLVehicleLoanApplication", testSchema.Id);
             Assert.NotEmpty(testSchema.Properties);
             Assert.Contains(testSchema.Properties, p => p.Id == "ID" && p.IsKey);
             Assert.Contains(testSchema.Properties, p => p.Id == "JSONObject");

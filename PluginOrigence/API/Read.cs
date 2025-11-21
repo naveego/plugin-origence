@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Naveego.Sdk.Logging;
 using Naveego.Sdk.Plugins;
 using Newtonsoft.Json;
 
@@ -11,7 +12,7 @@ public class Read
         Schema schema,
         int sampleSize = 0)
     {
-        var elementTag = schema.Name;
+        var elementTag = schema.Id;
         var xDocuments = client.GetDocuments();
 
         await foreach (var xDoc in xDocuments)
